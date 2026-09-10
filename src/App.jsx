@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AboutPage from "./AboutPage";
 import Heading from "./components/Heading";
 import Card from "./components/Card";
@@ -6,6 +6,12 @@ import Card from "./components/Card";
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
   const [selectedMember, setSelectedMember] = useState("");
+
+  useEffect(() => {
+    currentPage === "home"
+      ? (document.title = `Home`)
+      : (document.title = `About ${selectedMember.name}`);
+  }, [currentPage, selectedMember]);
 
   if (currentPage === "about") {
     return (
