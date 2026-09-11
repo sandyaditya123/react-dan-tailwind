@@ -2,6 +2,32 @@ import { useEffect, useState } from "react";
 import AboutPage from "./AboutPage";
 import Heading from "./components/Heading";
 import Card from "./components/Card";
+import { motion, scale } from "framer-motion";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      straggerChildren: 0.12,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 35, scale: 0.96 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stifness: 70,
+      damping: 14,
+    },
+  },
+};
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -27,69 +53,86 @@ function App() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-100">
-      <div className="grid w-full snap-x snap-mandatory grid-cols-[repeat(3,auto)] justify-start gap-x-6 gap-y-4 overflow-x-auto px-6 md:justify-center">
-        <Heading firstName={"김"} lastName={"유연"} />
-        <Heading firstName={"정"} lastName={"하연"} />
-        <Heading firstName={"곽"} lastName={"연지"} />
-        <Card
-          title={"Kim Yooyeon"}
-          desc={
-            "Kim Yooyeon adalah seorang penyanyi Korea Selatan dibawah naungan agensi Modhaus."
-          }
-          url={
-            "https://i.pinimg.com/736x/d2/21/b9/d221b90144ddec371295d71b540ece5c.jpg"
-          }
-          onAboutClick={() => {
-            setSelectedMember({
-              name: "Kim Yooyeon",
-              desc: "Kim Yooyeon adalah penyanyi asal Korea Selatan yang lahir pada 2 Maret 2001. Ia dikenal setelah mengikuti acara survival My Teenage Girl dan kini aktif sebagai anggota tripleS (S5).",
-              image: new URL("./assets/yooyeon.jpg", import.meta.url).href,
-              color: "bg-emerald-500 hover:bg-emerald-600",
-            });
-            setCurrentPage("about");
-          }}
-        />
-
-        <Card
-          title={"Jeong Hayeon"}
-          desc={
-            "Jeong Hayeon adalah seorang penyanyi Korea Selatan dibawah naungan agensi Modhaus."
-          }
-          url={
-            "https://i.pinimg.com/736x/57/12/98/571298b9af46dda103deca2b00892c7a.jpg"
-          }
-          btnColor="bg-rose-500 hover:bg-rose-600"
-          onAboutClick={() => {
-            setSelectedMember({
-              name: "Jeong Hayeon",
-              desc: "Jeong Hayeon adalah penyanyi berbakat asal Korea Selatan di bawah naungan agensi Modhaus dan merupakan anggota resmi dari grup idola tripleS (S19).",
-              image: new URL("./assets/hayeon.jpg", import.meta.url).href,
-              color: "bg-rose-500 hover:bg-rose-600",
-            });
-            setCurrentPage("about");
-          }}
-        />
-
-        <Card
-          title={"Kwak Yeonji"}
-          desc={
-            "Kwak Yeonji adalah seorang penyanyi Korea Selatan dibawah naungan agensi Modhaus."
-          }
-          url={
-            "https://i.pinimg.com/1200x/7c/d8/a5/7cd8a5e33199ec358996c88a0b2e731b.jpg"
-          }
-          btnColor="bg-indigo-500 hover:bg-indigo-600"
-          onAboutClick={() => {
-            setSelectedMember({
-              name: "Kwak Yeonji",
-              desc: "Kwak Yeonji lahir pada 8 Januari 2008. Ia merupakan salah satu maknae (anggota termuda) dari grup idola tripleS (S12) di bawah agensi Modhaus.",
-              image: new URL("./assets/yeonji.jpg", import.meta.url).href,
-              color: "bg-indigo-500 hover:bg-indigo-600",
-            });
-            setCurrentPage("about");
-          }}
-        />
-      </div>
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="grid w-full snap-x snap-mandatory grid-cols-[repeat(3,auto)] justify-start gap-x-6 gap-y-4 overflow-x-auto overflow-y-hidden px-6 md:justify-center"
+      >
+        {/* 1. Item Heading */}
+        <motion.div variants={itemVariants}>
+          <Heading firstName={"김"} lastName={"유연"} />
+        </motion.div>
+        <motion.div variants={itemVariants}>
+          <Heading firstName={"정"} lastName={"하연"} />
+        </motion.div>
+        <motion.div variants={itemVariants}>
+          <Heading firstName={"곽"} lastName={"연지"} />
+        </motion.div>
+        {/* 2. Item Card */}
+        <motion.div variants={itemVariants}>
+          <Card
+            title={"Kim Yooyeon"}
+            desc={
+              "Kim Yooyeon adalah seorang penyanyi Korea Selatan dibawah naungan agensi Modhaus."
+            }
+            url={
+              "https://i.pinimg.com/736x/d2/21/b9/d221b90144ddec371295d71b540ece5c.jpg"
+            }
+            onAboutClick={() => {
+              setSelectedMember({
+                name: "Kim Yooyeon",
+                desc: "Kim Yooyeon adalah penyanyi asal Korea Selatan yang lahir pada 2 Maret 2001. Ia dikenal setelah mengikuti acara survival My Teenage Girl dan kini aktif sebagai anggota tripleS (S5).",
+                image: new URL("./assets/yooyeon.jpg", import.meta.url).href,
+                color: "bg-emerald-500 hover:bg-emerald-600",
+              });
+              setCurrentPage("about");
+            }}
+          />
+        </motion.div>
+        <motion.div variants={itemVariants}>
+          <Card
+            title={"Jeong Hayeon"}
+            desc={
+              "Jeong Hayeon adalah seorang penyanyi Korea Selatan dibawah naungan agensi Modhaus."
+            }
+            url={
+              "https://i.pinimg.com/736x/57/12/98/571298b9af46dda103deca2b00892c7a.jpg"
+            }
+            btnColor="bg-rose-500 hover:bg-rose-600"
+            onAboutClick={() => {
+              setSelectedMember({
+                name: "Jeong Hayeon",
+                desc: "Jeong Hayeon adalah penyanyi berbakat asal Korea Selatan di bawah naungan agensi Modhaus dan merupakan anggota resmi dari grup idola tripleS (S19).",
+                image: new URL("./assets/hayeon.jpg", import.meta.url).href,
+                color: "bg-rose-500 hover:bg-rose-600",
+              });
+              setCurrentPage("about");
+            }}
+          />
+        </motion.div>
+        <motion.div variants={itemVariants}>
+          <Card
+            title={"Kwak Yeonji"}
+            desc={
+              "Kwak Yeonji adalah seorang penyanyi Korea Selatan dibawah naungan agensi Modhaus."
+            }
+            url={
+              "https://i.pinimg.com/1200x/7c/d8/a5/7cd8a5e33199ec358996c88a0b2e731b.jpg"
+            }
+            btnColor="bg-indigo-500 hover:bg-indigo-600"
+            onAboutClick={() => {
+              setSelectedMember({
+                name: "Kwak Yeonji",
+                desc: "Kwak Yeonji lahir pada 8 Januari 2008. Ia merupakan salah satu maknae (anggota termuda) dari grup idola tripleS (S12) di bawah agensi Modhaus.",
+                image: new URL("./assets/yeonji.jpg", import.meta.url).href,
+                color: "bg-indigo-500 hover:bg-indigo-600",
+              });
+              setCurrentPage("about");
+            }}
+          />
+        </motion.div>
+      </motion.div>
     </div>
   );
 }
